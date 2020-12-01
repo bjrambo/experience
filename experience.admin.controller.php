@@ -31,7 +31,7 @@
 			$config->medal_icon = $args->medal_icon;
 
 			$config->medal_diamond = $args->medal_diamond;
-			$config->medal_platinum = $args->medal_icon;
+			$config->medal_platinum = $args->medal_platinum;
 			$config->medal_gold = $args->medal_gold;
 			$config->medal_silver = $args->medal_silver;
 			$config->medal_bronze = $args->medal_bronze;
