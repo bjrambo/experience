@@ -417,6 +417,8 @@ class experienceController extends experience
 
 	public function giftAllMemberMedal()
 	{
+		$config = $this->getConfig();
+		
 		// 무조건 지난달.
 		$toMonthFirstDay = mktime(0, 0, 0, date("m"), 1, date("Y"));
 		$prev_month = strtotime("-1 month", $toMonthFirstDay);
@@ -432,23 +434,23 @@ class experienceController extends experience
 		
 		foreach ($MonthOutput->data as $monthDatum)
 		{
-			if ($rankCount == 1)
+			if ($rankCount == intval($config->medal_diamond))
 			{
 				$medal = 'diamond';
 			}
-			elseif ($rankCount > 1 && $rankCount <= 4)
+			elseif ($rankCount > intval($config->medal_diamond) && $rankCount <= intval($config->medal_platinum))
 			{
 				$medal = 'platinum';
 			}
-			elseif ($rankCount > 4 && $rankCount <= 10)
+			elseif ($rankCount > intval($config->medal_platinum) && $rankCount <= intval($config->medal_gold))
 			{
 				$medal = 'gold';
 			}
-			elseif ($rankCount > 10 && $rankCount <= 20)
+			elseif ($rankCount > intval($config->medal_gold) && $rankCount <= intval($config->medal_silver))
 			{
 				$medal = 'silver';
 			}
-			elseif ($rankCount > 20 && $rankCount <= 50)
+			elseif ($rankCount > intval($config->medal_silver) && $rankCount <= intval($config->medal_bronze))
 			{
 				$medal = 'bronze';
 			}
