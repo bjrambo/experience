@@ -149,6 +149,13 @@
 				</tr>
 			</tbody>
 		</table>
+		<div class="x_control-group">
+			<label for="exception_member" class="x_control-label">메달 지급 제외할 회원번호</label>
+			<div class="x_controls">
+				<input type="text" value="{$config->exception_member}" name="exception_member" id="exception_member" />
+				{$lang->about_max_level}
+			</div>
+		</div>
 		<!--@else-->
 		<div class="message error">
 			<p>활동메달을 선택하셔야 설정할 수 있습니다.</p>

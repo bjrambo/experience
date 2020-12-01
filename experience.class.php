@@ -61,6 +61,11 @@ class experience extends ModuleObject
 			{
 				return true;
 			}
+
+			if (!$config->medal_update_ntype || !$oNcenterliteModel->isNotifyTypeExistsbySrl($config->medal_update_ntype))
+			{
+				return true;
+			}
 		}
 
 		return false;
@@ -88,6 +93,7 @@ class experience extends ModuleObject
 		$config = $oModuleModel->getModuleConfig('experience');
 		if (is_dir('./modules/ncenterlite'))
 		{
+			/** @var ncenterliteModel $oNcenterliteModel */
 			$oNcenterliteModel = getModel('ncenterlite');
 			if (!$config->levelup_ntype || !$oNcenterliteModel->isNotifyTypeExistsbySrl($config->levelup_ntype))
 			{
@@ -97,10 +103,23 @@ class experience extends ModuleObject
 				$args->notify_type_args = 'level';
 				$args->notify_string = '<strong>레벨 Up!</strong> Lv.%level%이 되셨습니다.';
 
-				$oNcenterliteModel = getModel('ncenterlite');
 				$oNcenterliteModel->insertNotifyType($args);
 
 				$config->levelup_ntype = $args->notify_type_srl;
+				$oModuleController->insertModuleConfig('experience', $config);
+			}
+			
+			if (!$config->medal_update_ntype || !$oNcenterliteModel->isNotifyTypeExistsbySrl($config->medal_update_ntype))
+			{
+				$args = new stdClass();
+				$args->notify_type_srl = getNextSequence();
+				$args->notify_type_id = 'medal_gift';
+				$args->notify_type_args = 'medal';
+				$args->notify_string = '<strong>메달 지급!</strong> 저번 달 활동으로 %medal%을 흭득하였습니다. 축하드립니다.';
+
+				$oNcenterliteModel->insertNotifyType($args);
+
+				$config->medal_update_ntype = $args->notify_type_srl;
 				$oModuleController->insertModuleConfig('experience', $config);
 			}
 		}

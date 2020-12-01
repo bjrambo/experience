@@ -35,6 +35,8 @@
 			$config->medal_silver = $args->medal_silver;
 			$config->medal_bronze = $args->medal_bronze;
 			
+			$config->exception_member = $args->exception_member;
+			
 			if($args->ncenter_levelup == 'Y')
 			{
 				$config->ncenter_levelup = 'Y';
