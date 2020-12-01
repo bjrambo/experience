@@ -11,8 +11,7 @@
 		 */
 		function init()
 		{
-			$oExperienceModel = getModel('experience');
-			$config = $oExperienceModel->getModuleConfig();
+			$config = $this->getConfig();
 			Context::set('config', $config);
 			
 			$this->setTemplatePath($this->module_path.'tpl');

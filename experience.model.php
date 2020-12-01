@@ -19,35 +19,6 @@ class experienceModel extends experience
 	/**
 	 * @brief 모듈설정
 	 **/
-	function getModuleConfig()
-	{
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('experience');
-
-		if (!$config->max_level)
-		{
-			$config->max_level = 30;
-		}
-		if ($config->max_level > 1000)
-		{
-			$config->max_level = 1000;
-		}
-		if ($config->max_level < 1)
-		{
-			$config->max_level = 1;
-		}
-
-		if (!$config->level_icon)
-		{
-			$config->level_icon = 'default';
-		}
-		if (!$config->sync_point)
-		{
-			$config->sync_point = FALSE;
-		}
-
-		return $config;
-	}
 
 	/**
 	 * @brief 경험치 정보 존재확인
@@ -238,9 +209,7 @@ class experienceModel extends experience
 		{
 			$query_id = 'experience.getMemberList';
 		}
-		debugPrint($query_id);
 		$output = executeQuery($query_id, $args, $columnList);
-		debugPRint($output);
 		if ($output->total_count)
 		{
 			$oModuleModel = getModel('module');

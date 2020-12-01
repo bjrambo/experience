@@ -127,4 +127,34 @@ class experience extends ModuleObject
 		}
 		return $this->oCacheHandler;
 	}
+	
+	function getConfig()
+	{
+		$oModuleModel = getModel('module');
+		$config = $oModuleModel->getModuleConfig('experience');
+
+		if (!$config->max_level)
+		{
+			$config->max_level = 30;
+		}
+		if ($config->max_level > 1000)
+		{
+			$config->max_level = 1000;
+		}
+		if ($config->max_level < 1)
+		{
+			$config->max_level = 1;
+		}
+
+		if (!$config->level_icon)
+		{
+			$config->level_icon = 'default';
+		}
+		if (!$config->sync_point)
+		{
+			$config->sync_point = FALSE;
+		}
+
+		return $config;
+	}
 }

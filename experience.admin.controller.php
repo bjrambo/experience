@@ -21,8 +21,7 @@
 		{
 			$args = Context::getRequestVars();
 			
-			$oExperienceModel = getModel('experience');
-			$config = $oExperienceModel->getModuleConfig();
+			$config = $this->getConfig();
 			
 			$config->max_level = $args->max_level;
 			if($config->max_level>1000) $config->max_level = 1000;
@@ -138,7 +137,7 @@
 			@set_time_limit(0);
 			
 			$oExperienceModel = getModel('experience');
-			$config = $oExperienceModel->getModuleConfig();
+			$config = $this->getConfig();
 			if($config->sync_point) return new BaseObject(-1,'msg_invalid_request');
 			
 			$output = executeQueryArray('experience.getPoint');

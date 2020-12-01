@@ -43,7 +43,7 @@ class experienceController extends experience
 		);
 
 		$oExperienceModel = getModel('experience');
-		$config = $oExperienceModel->getModuleConfig();
+		$config = $this->getConfig();
 		$_experience_act = str_replace("\r", "", $config->experience_act);
 		$_experience_act = explode("\n", $_experience_act);
 
@@ -120,7 +120,7 @@ class experienceController extends experience
 		$oMemberModel = getModel('member');
 		/** @var experienceModel $oExperienceModel */
 		$oExperienceModel = getModel('experience');
-		$config = $oExperienceModel->getModuleConfig();
+		$config = $this->getConfig();
 
 		$current_experience = $oExperienceModel->getExperience($member_srl, true);
 		$current_level = $oExperienceModel->getLevel($current_experience, $config->level_step);
@@ -428,8 +428,8 @@ class experienceController extends experience
 		$args = new stdClass();
 		$args->regdate = $prevMonth;
 		$MonthOutput = executeQuery('experience.getMonthRank', $args);
-
 		$rankCount = 1;
+		
 		foreach ($MonthOutput->data as $monthDatum)
 		{
 			if ($rankCount == 1)
