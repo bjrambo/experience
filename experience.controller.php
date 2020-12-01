@@ -418,7 +418,7 @@ class experienceController extends experience
 	public function giftAllMemberMedal()
 	{
 		$config = $this->getConfig();
-		
+
 		// 무조건 지난달.
 		$toMonthFirstDay = mktime(0, 0, 0, date("m"), 1, date("Y"));
 		$prev_month = strtotime("-1 month", $toMonthFirstDay);
@@ -431,7 +431,7 @@ class experienceController extends experience
 		$args->regdate = $prevMonth;
 		$MonthOutput = executeQuery('experience.getMonthRank', $args);
 		$rankCount = 1;
-		
+
 		foreach ($MonthOutput->data as $monthDatum)
 		{
 			if ($rankCount == intval($config->medal_diamond))

@@ -238,17 +238,17 @@ class experienceModel extends experience
 
 		return $output->data;
 	}
-	
+
 	function getMedalByMemberSrl($member_srl)
 	{
-		if(!$member_srl)
+		if (!$member_srl)
 		{
 			return false;
 		}
-		
+
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
-		
+
 		return executeQuery('experience.getMedalByMemberSrl', $args)->data;
 	}
 }

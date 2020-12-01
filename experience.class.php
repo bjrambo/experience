@@ -108,7 +108,7 @@ class experience extends ModuleObject
 				$config->levelup_ntype = $args->notify_type_srl;
 				$oModuleController->insertModuleConfig('experience', $config);
 			}
-			
+
 			if (!$config->medal_update_ntype || !$oNcenterliteModel->isNotifyTypeExistsbySrl($config->medal_update_ntype))
 			{
 				$args = new stdClass();
@@ -146,7 +146,7 @@ class experience extends ModuleObject
 		}
 		return $this->oCacheHandler;
 	}
-	
+
 	function getConfig()
 	{
 		$oModuleModel = getModel('module');
