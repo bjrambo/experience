@@ -1,0 +1,6 @@
+<table name="experience_month">
+	<column name="id" type="number" primary_key="primary_key" auto_increment="auto_increment" />
+	<column name="member_srl" type="number" size="11" notnull="notnull" index="idx_member_srl" />
+	<column name="regdate" type="date" notnull="notnull" />
+	<column name="experience" type="number" size="11" notnull="notnull" default="0" index="idx_experience" />
+</table>

@@ -1,0 +1,12 @@
+<query id="getMonthExperienceByMemberSrl" action="select">
+	<tables>
+		<table name="experience_month" />
+	</tables>
+	<columns>
+		<column name="*" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" />
+		<condition operation="qeual" column="regdate" var="regdate" notnull="notnull" />
+	</conditions>
+</query>

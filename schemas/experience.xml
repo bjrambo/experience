@@ -1,0 +1,4 @@
+<table name="experience">
+    <column name="member_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+    <column name="experience" type="number" size="11" notnull="notnull" default="0" index="idx_experience" />
+</table>

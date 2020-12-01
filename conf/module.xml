@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants />
+    <permissions />
+    <actions>
+        <action name="dispExperienceAdminConfig" type="view" admin_index="true" menu_name="experience" menu_index="true" />
+        <action name="dispExperienceAdminMemberList" type="view" menu_name="experience" />
+
+        <action name="procExperienceAdminInsertConfig" type="controller" ruleset="insertConfig" />
+        <action name="procExperienceAdminUpdateExperience" type="controller" ruleset="updateExperience" />
+		<action name="procExperienceAdminSyncPoint" type="controller" />
+    </actions>
+	<menus>
+		<menu name="experience">
+			<title xml:lang="ko">경험치 시스템</title>
+		</menu>
+	</menus>
+</module>

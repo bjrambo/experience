@@ -1,0 +1,218 @@
+<include target="header.html" />
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/experience/tpl/config/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+
+<div class="message error" cond="$no_point_module">
+	<p>{$lang->msg_not_experience_point_module}</p>
+</div>
+
+<form ruleset="insertConfig" action="./" method="post" class="x_form-horizontal">
+	<input type="hidden" name="module" value="experience" />
+	<input type="hidden" name="act" value="procExperienceAdminInsertConfig" />
+	<input type="hidden" name="xe_validator_id" value="modules/experience/tpl/config/1" />
+	
+	<section class="section" cond="!$config->sync_point && !$no_point_module">
+		<h1>{$lang->sync_point_experience}</h1>
+		<div class="message error">
+			<p>{$lang->about_sync_point_experience}</p>
+		</div>
+		<p><input class="x_btn x_btn-warning" type="button" value="{$lang->run_sync_point_experience}" onclick="syncExpPoint()" /></p>
+	</section>
+	
+	<section class="section default">
+		<h1>{$lang->is_default}</h1>
+		<div class="x_control-group">
+			<label for="max_level" class="x_control-label">{$lang->max_level}</label>
+			<div class="x_controls">
+				<input type="number" min="0" max="1000" value="{$config->max_level}" name="max_level" id="max_level" />
+				{$lang->about_max_level}
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="level_icon" class="x_control-label">{$lang->level_icon}</label>
+			<div class="x_controls">
+				<select name="level_icon" id="level_icon">
+					<!--@foreach($level_icon_list as $key => $val)-->
+					<option value="{$val}" selected="selected"|cond="$config->level_icon == $val">{$val}</option>
+					<!--@end-->
+				</select>
+				<span class="x_help-inline">{$lang->about_level_icon}</span>
+			</div>
+		</div>
+		<div class="x_control-group" cond="is_dir('./modules/ncenterlite')">
+			<label for="ncenter_levelup" class="x_control-label">{$lang->ncenter_levelup}</label>
+			<div class="x_controls" style="padding-top:3px">
+				<label for="ncenter_levelup">
+					<input type="checkbox" name="ncenter_levelup" id="ncenter_levelup" value="Y" checked="checked"|cond="$config->ncenter_levelup=='Y'" /> {$lang->about_ncenter_levelup}
+				</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="experience_act" class="x_control-label">{$lang->experience_act}</label>
+			<div class="x_controls">
+				<textarea name="experience_act" id="experience_act">{htmlspecialchars($config->experience_act)}</textarea>
+				<p class="x_help-block">{$lang->about_experience_act}</p>
+			</div>
+		</div>
+		
+		<div class="x_clearfix btnArea">
+			<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
+		</div>
+	</section>
+
+	<section class="section">
+		<h1>{$lang->experience_link_group}</h1>
+		<div class="x_clearfix" style="margin-bottom:-10px">
+			<p class="x_pull-left">{$lang->about_experience_link_group}</p>
+			<div class="x_pull-right">
+				<label for="group_reset_y" class="x_inline"><input type="radio" name="group_reset" id="group_reset_y" value="Y" checked="checked"|cond="$config->group_reset != 'N'" /> {$lang->experience_group_reset_and_add}</label>
+				<label for="group_reset_n" class="x_inline"><input type="radio" name="group_reset" id="group_reset_n" value="N" checked="checked"|cond="$config->group_reset == 'N'" /> {$lang->experience_group_add_only}</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="link_group_mode">{$lang->mode}</label>
+			<div class="x_controls">
+				<select name="link_group_mode" id="link_group_mode">
+					<option value="N" selected="selected"|cond="$config->link_group_mode=='N'">{$lang->link_group_mode_keep}</option>
+					<option value="Y" selected="selected"|cond="$config->link_group_mode=='Y'">{$lang->link_group_mode_clear}</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group" loop="$group_list => $key,$val">
+			<label class="x_control-label" for="experience_group_{$key}">{$val->title}</label>
+			<div class="x_controls">
+				<input cond="$val->is_default != 'Y'" type="number" min="0" max="1000" value="{$config->experience_group[$key]}" name="experience_group_{$key}" id="experience_group_{$key}" style="width:50px" />
+				&nbsp;{$lang->level}
+				<span cond="$val->is_default == 'Y'" style="display:inline-block;padding-top:3px">{$lang->default_group}</span>
+			</div>
+		</div>
+		<div class="x_clearfix btnArea">
+			<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
+		</div>
+	</section>
+	
+	<section class="section">
+		<h1>활동메달</h1>
+		<div class="x_control-group">
+			<label for="level_icon" class="x_control-label">메달 아이콘</label>
+			<div class="x_controls">
+				<select name="medal_icon" id="medal_icon">
+					<!--@foreach($medal_icon_list as $key => $val)-->
+					<option value="{$val}" selected="selected"|cond="$config->medal_icon == $val">{$val}</option>
+					<!--@end-->
+				</select>
+				<span class="x_help-inline">{$lang->about_level_icon}</span>
+			</div>
+		</div>
+		<!--@if($config->medal_icon)-->
+		<table class="x_table x_table-striped x_table-hover">
+			<tbody><tr>
+				<th scope="col">메달</th>
+				<th scope="col">아이콘</th>
+				<th scope="col">조건</th>
+			</tr>
+				<tr>
+					<td>다이아몬드 메달</td>
+					<td><img src="./modules/experience/medal/{$config->medal_icon}/diamond.png"></td>
+					<td>
+						<input type="number" name="medal_diamond" value="{$config->medal_diamond}" style="width:120px;text-align:right"> 순위까지
+					</td>
+				</tr>
+				<tr>
+					<td>백금메달</td>
+					<td><img src="./modules/experience/medal/{$config->medal_icon}/platinum.png"></td>
+					<td>
+						<input type="number" name="medal_platinum" value="{$config->medal_platinum}" style="width:120px;text-align:right"> 순위까지
+					</td>
+				</tr>
+				<tr>
+					<td>금메달</td>
+					<td><img src="./modules/experience/medal/{$config->medal_icon}/gold.png"></td>
+					<td>
+						<input type="number" name="medal_gold" value="{$config->medal_gold}" style="width:120px;text-align:right"> 순위까지
+					</td>
+				</tr>
+				<tr>
+					<td>은메달</td>
+					<td><img src="./modules/experience/medal/{$config->medal_icon}/silver.png"></td>
+					<td>
+						<input type="number" name="medal_silver" value="{$config->medal_silver}" style="width:120px;text-align:right"> 순위까지
+					</td>
+				</tr>
+				<tr>
+					<td>동메달</td>
+					<td><img src="./modules/experience/medal/{$config->medal_icon}/bronze.png"></td>
+					<td>
+						Exp. <input type="number" name="medal_bronze" value="{$config->medal_bronze}" style="width:120px;text-align:right"> 충족시
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<!--@else-->
+		<div class="message error">
+			<p>활동메달을 선택하셔야 설정할 수 있습니다.</p>
+		</div>
+		<!--@end-->
+		<div class="x_clearfix btnArea">
+			<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
+		</div>
+	</section>
+	
+	
+
+	<section class="section">
+		{@$experience_group = @array_flip($config->experience_group)}
+		<h1>{$lang->level_experience}</h1>
+		<div class="x_clearfix">
+			<p class="x_pull-left">{$lang->expression}</p>
+			<span class="x_pull-right x_input-append">
+				<input type="text" value="{$config->expression}" placeholder="Math.pow(i,2) * 90" size="30" class="level_expression" />
+				<button type="button" class="x_btn calc_experience">{$lang->level_experience_calc}</button> 
+				<button type="button" class="x_btn calc_experience _reset">{$lang->cmd_exp_reset}</button>
+			</span>
+		</div>
+		<table class="x_table x_table-striped x_table-hover">
+			<tr>
+				<th scope="col">{$lang->level}</th>
+				<th scope="col">{$lang->level_icon}</th>
+				<th scope="col">{$lang->experience}</th>
+				<th scope="col">{$lang->member_group}</th>
+			</tr>
+			<tr>
+				<td>1</td>
+				<td><img src="{getUrl()}/modules/experience/icons/{$config->level_icon}/1.gif" alt="1" /></td>
+				<td><label for="level_step_1" style="margin:0"><input type="number" id="level_step_1" name="level_step_1" value="{$config->level_step[1]}" style="width:120px;text-align:right" /> {$config->experience_name}</label></td>
+{@$experience_group_item = $experience_group[1]}
+{@$title=array()}
+<!--@if($experience_group_item)-->
+<!--@if($config->group_reset != 'N')-->
+{@$title[0] = $group_list[$experience_group_item.'']->title}
+<!--@else-->
+{@$title[] = $group_list[$experience_group_item.'']->title}
+<!--@end-->
+<!--@end-->
+				<td>{implode(', ', $title)}</td>
+			</tr>
+			<!--@for($i=2;$i<=$config->max_level;$i++)-->
+{@$experience_group_item = $experience_group[$i]}
+<!--@if($experience_group_item)-->
+<!--@if($config->group_reset != 'N')-->
+{@$title[0] = $group_list[$experience_group_item.'']->title}
+<!--@else-->
+{@$title[] = $group_list[$experience_group_item.'']->title}
+<!--@end-->
+<!--@end-->
+			<tr class="row{(($i-1)%2+1)}">
+				<td>{$i}</td>
+				<td><img src="{getUrl()}/modules/experience/icons/{$config->level_icon}/{$i}.gif" alt="{$i}" /></td>
+				<td><label for="level_step_{$i}" style="margin:0"><input type="number" id="level_step_{$i}" name="level_step_{$i}" value="{$config->level_step[$i]}" style="width:120px;text-align:right" /> {$config->experience_name}</label></td>
+				<td>{implode(', ', $title)}</td>
+			</tr>
+			<!--@end-->
+		</table>
+		<div class="x_clearfix">
+			<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
+		</div>
+	</section>
+</form>

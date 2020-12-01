@@ -1,0 +1,5 @@
+<table name="experience_medal">
+	<column name="member_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+	<column name="medal" type="varchar" size="22" notnull="notnull" />
+	<column name="update_regdate" type="date" notnull="notnull" />
+</table>

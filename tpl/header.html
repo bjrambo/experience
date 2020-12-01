@@ -1,0 +1,8 @@
+<load target="js/experience_admin.js" />
+<div class="x_page-header">
+	<h1>{$lang->experience} {$lang->cmd_management}</h1>
+</div>
+<ul class="x_nav x_nav-tabs">
+	<li class="x_active"|cond="$act=='dispExperienceAdminConfig'"><a href="{getUrl('', 'module', 'admin', 'act','dispExperienceAdminConfig')}">{$lang->cmd_experience_config}</a></li>
+	<li class="x_active"|cond="$act=='dispExperienceAdminMemberList'"><a href="{getUrl('', 'module', 'admin', 'act','dispExperienceAdminMemberList')}">{$lang->cmd_experience_member_list}</a></li>
+</ul>

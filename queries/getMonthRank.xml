@@ -1,0 +1,22 @@
+<query id="getMonthRank" action="select">
+	<tables>
+		<table name="member" alias="member"/>
+		<table name="experience_month" alias="experience_month"/>
+	</tables>
+	<columns>
+		<column name="member.member_srl" />
+		<column name="member.nick_name" />
+		<column name="member.user_id" />
+		<column name="experience_month.experience" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="member.member_srl" var="experience_month.member_srl" />
+		<condition operation="equal" column="experience_month.regdate" var="regdate" />
+	</conditions>
+	<navigation>
+		<index var="sort_index" default="experience_month.experience" order="desc" />
+		<list_count var="list_count" default="50" />
+		<page_count var="page_count" default="10" />
+		<page var="page" default="1" />
+	</navigation>
+</query>

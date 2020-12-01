@@ -1,0 +1,10 @@
+<query id="insertExperience" action="insert">
+	<tables>
+		<table name="experience_medal" />
+	</tables>
+	<columns>
+		<column name="member_srl" var="member_srl" filter="number" notnull="notnull" />
+		<column name="medal" var="medal"  />
+		<column name="update_regdate" var="update_regdate"  />
+	</columns>
+</query>
