@@ -43,6 +43,21 @@ function syncExpPoint() {
 	);
 }
 
+function syncMedal() {
+	if(!confirm('기존의 메달 데이터를 삭제하게됩니다. 그래도 진행하시겠습니까?'))
+	{
+		return;
+	}
+
+	exec_xml(
+		'experience',
+		'procExperienceAdminSyncMedal',
+		{},
+		completeOn,
+		['error','message']
+	);
+}
+
 function updateExperience(member_srl)
 {
 	var $experience = jQuery('#experience_'+member_srl);

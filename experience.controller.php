@@ -42,6 +42,7 @@ class experienceController extends experience
 			'procSocialxeCallback'
 		);
 
+		/** @var experienceModel $oExperienceModel */
 		$oExperienceModel = getModel('experience');
 		$config = $this->getConfig();
 		$_experience_act = str_replace("\r", "", $config->experience_act);
@@ -79,6 +80,7 @@ class experienceController extends experience
 		{
 			$todayMon = date('Ym');
 			$monThExperienceData = $oExperienceModel->getMonthExperience($obj->member_srl, $todayMon);
+			debugPRint($monThExperienceData);
 
 			$args = new stdClass();
 			$args->member_srl = $obj->member_srl;

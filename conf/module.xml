@@ -9,6 +9,7 @@
         <action name="procExperienceAdminInsertConfig" type="controller" ruleset="insertConfig" />
         <action name="procExperienceAdminUpdateExperience" type="controller" ruleset="updateExperience" />
 		<action name="procExperienceAdminSyncPoint" type="controller" />
+	    <action name="procExperienceAdminSyncMedal" type="controller" />
     </actions>
 	<menus>
 		<menu name="experience">

@@ -115,7 +115,7 @@ class experience extends ModuleObject
 				$args->notify_type_srl = getNextSequence();
 				$args->notify_type_id = 'medal_gift';
 				$args->notify_type_args = 'medal';
-				$args->notify_string = '<strong>메달 지급!</strong> 저번 달 활동으로 %medal%을 흭득하였습니다. 축하드립니다.';
+				$args->notify_string = '<strong>메달 지급!</strong> 저번 달 활동으로 <strong>%medal%</strong>을 흭득하였습니다. 축하드립니다.';
 
 				$oNcenterliteModel->insertNotifyType($args);
 

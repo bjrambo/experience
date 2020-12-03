@@ -147,7 +147,6 @@ class experienceAdminController extends experience
 	{
 		@set_time_limit(0);
 
-		$oExperienceModel = getModel('experience');
 		$config = $this->getConfig();
 		if ($config->sync_point)
 		{
@@ -173,6 +172,100 @@ class experienceAdminController extends experience
 
 		$oModuleController = getController('module');
 		$oModuleController->insertModuleConfig('experience', $config);
+
+		$this->setMessage('success_updated');
+	}
+	
+	function procExperienceAdminSyncMedal()
+	{
+		@set_time_limit(0);
+		
+		$config = $this->getConfig();
+		
+		$output = executeQuery('experience.deleteAllMedal');
+		debugPrint($output);
+
+		// 무조건 지난달.
+		$toMonthFirstDay = mktime(0, 0, 0, date("m"), 1, date("Y"));
+		$prev_month = strtotime("-1 month", $toMonthFirstDay);
+		$prevMonth = date('Ym', $prev_month);
+
+		/** @var experienceModel $oExperienceModel */
+		$oExperienceModel = getModel('experience');
+
+		$args = new stdClass();
+		$args->regdate = $prevMonth;
+		$MonthOutput = executeQuery('experience.getMonthRank', $args);
+		$rankCount = 1;
+
+		foreach ($MonthOutput->data as $monthDatum)
+		{
+			$medalString = "없음";
+			if ($rankCount == intval($config->medal_diamond))
+			{
+				$medal = 'diamond';
+				$medalString = '다이아몬드';
+			}
+			elseif ($rankCount > intval($config->medal_diamond) && $rankCount <= intval($config->medal_platinum))
+			{
+				$medal = 'platinum';
+				$medalString = '플레티넘';
+			}
+			elseif ($rankCount > intval($config->medal_platinum) && $rankCount <= intval($config->medal_gold))
+			{
+				$medal = 'gold';
+				$medalString = '골드';
+			}
+			elseif ($rankCount > intval($config->medal_gold) && $rankCount <= intval($config->medal_silver))
+			{
+				$medal = 'silver';
+				$medalString = '실버';
+			}
+			elseif ($rankCount > intval($config->medal_silver) && $rankCount <= intval($config->medal_bronze))
+			{
+				$medal = 'bronze';
+				$medalString = '다이아';
+			}
+
+			$args = new stdClass();
+			$args->member_srl = $monthDatum->member_srl;
+			$args->medal = $medal;
+			$args->update_regdate = $prevMonth;
+			$medas = $oExperienceModel->getMedalByMemberSrl($monthDatum->member_srl);
+			if ($medas)
+			{
+				$output = executeQuery('experience.updateMedal', $args);
+			}
+			else
+			{
+				$output = executeQuery('experience.insertMedal', $args);
+			}
+			$rankCount++;
+			//메달 흭득 알림(알림센터)
+			if (is_dir('./modules/ncenterlite'))
+			{
+				$oNcenterliteController = getController('ncenterlite');
+
+				$body = new stdClass;
+				$body->medal = $medalString;
+				debugPRint($body);
+
+				$args = new stdClass;
+				$args->member_srl = $monthDatum->member_srl;
+				$args->srl = 1;
+				$args->target_srl = 1;
+				$args->target_p_srl = 1;
+				$args->type = 'U';
+				$args->target_type = 'U';
+				$args->notify_type = $config->medal_update_ntype;
+				$args->target_body = serialize($body);
+				$args->target_url = getUrl('');
+				$args->regdate = date('YmdHis');
+				$args->notify = $oNcenterliteController->_getNotifyId($args);
+				$output = $oNcenterliteController->_insertNotify($args);
+				debugPrint($output);
+			}
+		}
 
 		$this->setMessage('success_updated');
 	}
