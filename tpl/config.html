@@ -110,7 +110,7 @@
 					<option value="{$val}" selected="selected"|cond="$config->medal_icon == $val">{$val}</option>
 					<!--@end-->
 				</select>
-				<span class="x_help-inline">{$lang->about_level_icon}</span>
+				<span class="x_help-inline">메달 아이콘을 선택합니다. 선택된 폴더명을 기준으록 메달 이미지가 출력됩니다.</span>
 			</div>
 		</div>
 		<!--@if($config->medal_icon)-->
@@ -161,7 +161,7 @@
 			<label for="exception_member" class="x_control-label">메달 지급 제외할 회원번호</label>
 			<div class="x_controls">
 				<input type="text" value="{$config->exception_member}" name="exception_member" id="exception_member" />
-				메달 지급 제외할 회원번호를 입력합니다.
+				메달 지급 제외할 회원번호를 입력합니다. 공백없이 (,)쉼표로 구분하여 회원번호를 입력하세요. (ex 4,130)
 			</div>
 		</div>
 		<!--@else-->
