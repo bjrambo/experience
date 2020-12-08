@@ -75,12 +75,10 @@ class experienceController extends experience
 		{
 			$output = $this->setExperience($obj->member_srl, $point, 'add');
 		}
-		debugPrint($output);
 		if ($output->toBool())
 		{
 			$todayMon = date('Ym');
 			$monThExperienceData = $oExperienceModel->getMonthExperience($obj->member_srl, $todayMon);
-			debugPRint($monThExperienceData);
 
 			$args = new stdClass();
 			$args->member_srl = $obj->member_srl;
@@ -119,7 +117,6 @@ class experienceController extends experience
 			$mode = 'update';
 		}
 
-		$oMemberModel = getModel('member');
 		/** @var experienceModel $oExperienceModel */
 		$oExperienceModel = getModel('experience');
 		$config = $this->getConfig();
@@ -163,7 +160,7 @@ class experienceController extends experience
 			return $trigger_output;
 		}
 
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
 		if ($oExperienceModel->isExistsExperience($member_srl))
 		{
@@ -431,6 +428,7 @@ class experienceController extends experience
 
 		$args = new stdClass();
 		$args->regdate = $prevMonth;
+		$args->exception_member = $config->exception_member;
 		$MonthOutput = executeQuery('experience.getMonthRank', $args);
 		$rankCount = 1;
 

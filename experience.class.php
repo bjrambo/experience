@@ -169,6 +169,10 @@ class experience extends ModuleObject
 		{
 			$config->level_icon = 'default';
 		}
+		if (!$config->medal_icon)
+		{
+			$config->medal_icon = 'default';
+		}
 		if (!$config->sync_point)
 		{
 			$config->sync_point = FALSE;

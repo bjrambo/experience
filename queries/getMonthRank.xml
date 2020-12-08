@@ -12,6 +12,7 @@
 	<conditions>
 		<condition operation="equal" column="member.member_srl" var="experience_month.member_srl" />
 		<condition operation="equal" column="experience_month.regdate" var="regdate" />
+		<condition operation="notin" column="experience_month.member_srl" var="exception_member" />
 	</conditions>
 	<navigation>
 		<index var="sort_index" default="experience_month.experience" order="desc" />

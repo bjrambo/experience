@@ -224,7 +224,7 @@ class experienceAdminController extends experience
 			elseif ($rankCount > intval($config->medal_silver) && $rankCount <= intval($config->medal_bronze))
 			{
 				$medal = 'bronze';
-				$medalString = '다이아';
+				$medalString = '브론즈';
 			}
 
 			$args = new stdClass();
@@ -248,7 +248,6 @@ class experienceAdminController extends experience
 
 				$body = new stdClass;
 				$body->medal = $medalString;
-				debugPRint($body);
 
 				$args = new stdClass;
 				$args->member_srl = $monthDatum->member_srl;
@@ -263,7 +262,6 @@ class experienceAdminController extends experience
 				$args->regdate = date('YmdHis');
 				$args->notify = $oNcenterliteController->_getNotifyId($args);
 				$output = $oNcenterliteController->_insertNotify($args);
-				debugPrint($output);
 			}
 		}
 
