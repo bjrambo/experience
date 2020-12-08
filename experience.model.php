@@ -19,7 +19,10 @@ class experienceModel extends experience
 	/**
 	 * @brief 모듈설정
 	 **/
-
+	function getModuleConfig()
+	{
+		return $this->getConfig();
+	}
 	/**
 	 * @brief 경험치 정보 존재확인
 	 */
