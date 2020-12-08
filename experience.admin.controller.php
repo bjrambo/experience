@@ -195,6 +195,7 @@ class experienceAdminController extends experience
 
 		$args = new stdClass();
 		$args->regdate = $prevMonth;
+		$args->exception_member = $config->exception_member;
 		$MonthOutput = executeQuery('experience.getMonthRank', $args);
 		$rankCount = 1;
 
