@@ -1,0 +1,12 @@
+<query id="getMedalList" action="select">
+	<tables>
+		<table name="experience_medal" />
+	</tables>
+	<columns>
+		<column name="*" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="update_regdate" var="update_regdate" notnull="notnull" />
+	</conditions>
+</query>
+
