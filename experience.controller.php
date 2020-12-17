@@ -414,15 +414,37 @@ class experienceController extends experience
 		$GLOBALS['__del_group_list__'] = $_gdel_list;
 	}
 
+	/**
+	 * Gift to medal for user.
+	 * @return bool
+	 */
 	public function giftAllMemberMedal()
 	{
 		$config = $this->getConfig();
-
+		
 		// 무조건 지난달.
 		$toMonthFirstDay = mktime(0, 0, 0, date("m"), 1, date("Y"));
 		$prev_month = strtotime("-1 month", $toMonthFirstDay);
 		$prevMonth = date('Ym', $prev_month);
 
+		// 이번달에 메달을 지급한지 채크 이미 지급하였다면 패스~
+		$args = new stdClass();
+		$args->update_regdate = $prevMonth;
+		$getMedalList = executeQueryArray('experience.getMedalList', $args);
+		if(count($getMedalList->data) > 0)
+		{
+			return false;
+		}
+		debugPrint($args);
+
+		// 메달 정보 전부 삭제.
+		$deleteOutput = executeQuery('experience.deleteAllMedal');
+		if(!$deleteOutput->toBool())
+		{
+			return false;
+		}
+		debugPrint(22);
+		
 		/** @var experienceModel $oExperienceModel */
 		$oExperienceModel = getModel('experience');
 
@@ -431,28 +453,35 @@ class experienceController extends experience
 		$args->exception_member = $config->exception_member;
 		$MonthOutput = executeQuery('experience.getMonthRank', $args);
 		$rankCount = 1;
+		debugPrint($MonthOutput);
 
 		foreach ($MonthOutput->data as $monthDatum)
 		{
+			$medalString = "없음";
 			if ($rankCount == intval($config->medal_diamond))
 			{
 				$medal = 'diamond';
+				$medalString = '다이아몬드';
 			}
 			elseif ($rankCount > intval($config->medal_diamond) && $rankCount <= intval($config->medal_platinum))
 			{
 				$medal = 'platinum';
+				$medalString = '플레티넘';
 			}
 			elseif ($rankCount > intval($config->medal_platinum) && $rankCount <= intval($config->medal_gold))
 			{
 				$medal = 'gold';
+				$medalString = '골드';
 			}
 			elseif ($rankCount > intval($config->medal_gold) && $rankCount <= intval($config->medal_silver))
 			{
 				$medal = 'silver';
+				$medalString = '실버';
 			}
 			elseif ($rankCount > intval($config->medal_silver) && $rankCount <= intval($config->medal_bronze))
 			{
 				$medal = 'bronze';
+				$medalString = '브론즈';
 			}
 
 			$args = new stdClass();
@@ -469,6 +498,29 @@ class experienceController extends experience
 				$output = executeQuery('experience.insertMedal', $args);
 			}
 			$rankCount++;
+			//메달 흭득 알림 (알림센터)
+			if (is_dir('./modules/ncenterlite'))
+			{
+				$oNcenterliteController = getController('ncenterlite');
+
+				$body = new stdClass;
+				$body->medal = $medalString;
+
+				$args = new stdClass;
+				$args->member_srl = $monthDatum->member_srl;
+				$args->srl = 1;
+				$args->target_srl = 1;
+				$args->target_p_srl = 1;
+				$args->type = 'U';
+				$args->target_type = 'U';
+				$args->notify_type = $config->medal_update_ntype;
+				$args->target_body = serialize($body);
+				$args->target_url = getUrl('');
+				$args->regdate = date('YmdHis');
+				$args->notify = $oNcenterliteController->_getNotifyId($args);
+				$output = $oNcenterliteController->_insertNotify($args);
+			}
 		}
+		return true;
 	}
 }

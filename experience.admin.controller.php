@@ -178,12 +178,9 @@ class experienceAdminController extends experience
 	
 	function procExperienceAdminSyncMedal()
 	{
-		@set_time_limit(0);
-		
 		$config = $this->getConfig();
 		
 		$output = executeQuery('experience.deleteAllMedal');
-		debugPrint($output);
 
 		// 무조건 지난달.
 		$toMonthFirstDay = mktime(0, 0, 0, date("m"), 1, date("Y"));
