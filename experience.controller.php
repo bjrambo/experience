@@ -99,6 +99,10 @@ class experienceController extends experience
 						break;
 					}
 				}
+				else
+				{
+					$expriencePoint = $monThExperienceData->experience;
+				}
 				$args->experience = $expriencePoint + $point;
 				$output = executeQuery('experience.updateMonthExperience', $args);
 			}
