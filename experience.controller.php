@@ -20,7 +20,6 @@ class experienceController extends experience
 	function triggerSetPoint(&$obj)
 	{
 		$act = Context::get('act');
-		debugPrint($act);
 
 		//관리자의 포인트 수동조작은 무조건 경험치에서 제외
 		if ($act == 'procPointAdminUpdatePoint')
@@ -91,7 +90,16 @@ class experienceController extends experience
 
 			if ($monThExperienceData)
 			{
-				$args->experience = $monThExperienceData->experience + $point;
+				// for snsdStagram..
+				if(is_array($monThExperienceData))
+				{
+					foreach ($monThExperienceData as $monThExperienceDatum)
+					{
+						$expriencePoint = $monThExperienceDatum->experience;
+						break;
+					}
+				}
+				$args->experience = $expriencePoint + $point;
 				$output = executeQuery('experience.updateMonthExperience', $args);
 			}
 			else
