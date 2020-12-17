@@ -443,7 +443,6 @@ class experienceController extends experience
 		{
 			return false;
 		}
-		debugPrint($args);
 
 		// 메달 정보 전부 삭제.
 		$deleteOutput = executeQuery('experience.deleteAllMedal');
@@ -451,7 +450,6 @@ class experienceController extends experience
 		{
 			return false;
 		}
-		debugPrint(22);
 		
 		/** @var experienceModel $oExperienceModel */
 		$oExperienceModel = getModel('experience');
@@ -461,7 +459,6 @@ class experienceController extends experience
 		$args->exception_member = $config->exception_member;
 		$MonthOutput = executeQuery('experience.getMonthRank', $args);
 		$rankCount = 1;
-		debugPrint($MonthOutput);
 
 		foreach ($MonthOutput->data as $monthDatum)
 		{
