@@ -2,8 +2,8 @@
 <module version="0.2">
     <title xml:lang="ko">경험치 시스템</title>
     <description xml:lang="ko">사이트 활동으로 모이는 경험치 및 레벨을 관리하는 모듈입니다.</description>
-    <version>0.1</version>
-    <date>2015-09-27</date>
+    <version>0.1.1</version>
+    <date>2021-01-01</date>
     <category>member</category>
 
     <author email_address="webmaster@conory.com" link="http://www.conory.com">
