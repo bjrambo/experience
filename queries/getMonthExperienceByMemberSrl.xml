@@ -7,6 +7,6 @@
 	</columns>
 	<conditions>
 		<condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" />
-		<condition operation="qeual" column="regdate" var="regdate" notnull="notnull" />
+		<condition operation="equal" column="regdate" var="regdate" notnull="notnull" />
 	</conditions>
 </query>
