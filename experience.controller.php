@@ -461,6 +461,7 @@ class experienceController extends experience
 		$args = new stdClass();
 		$args->regdate = $prevMonth;
 		$args->exception_member = $config->exception_member;
+		$args->list_count = $config->medal_bronze;
 		$MonthOutput = executeQuery('experience.getMonthRank', $args);
 		$rankCount = 1;
 
