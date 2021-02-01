@@ -28,6 +28,8 @@ class experienceAdminView extends experience
 
 		$medal_icon_list = FileHandler::readDir("./modules/experience/medal");
 		Context::set('medal_icon_list', $medal_icon_list);
+		
+		Context::set('experience_dir', RX_BASEDIR . 'modules/experience');
 
 		//그룹 목록
 		$oMemberModel = getModel('member');

@@ -26,6 +26,8 @@
 			<p>메달의 순위를 변경하거나 여러가지 요인으로 재 설정해야할 경우 이 버튼을 누르세요.</p>
 		</div>
 		<p><input class="x_btn x_btn-warning" type="button" value="메달 동기화 실행" onclick="syncMedal()" /></p>
+		<p>crontab 으로 사용하실 사람은 아래와 같이 crontab -e 안에 넣어주세요.</p>
+		<p>0 0 1 * * cd {$experience_dir}; php crontab.php > /dev/null 2>&1</p>
 	</section>
 	
 	<section class="section default">
