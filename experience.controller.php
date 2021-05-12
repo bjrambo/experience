@@ -79,7 +79,7 @@ class experienceController extends experience
 	/**
 	 * @brief 경험치 지급
 	 */
-	function setExperience($member_srl, $experience, $mode = null)
+	function setExperience($member_srl, $experience, $mode = null, $updateMonth = true)
 	{
 		$member_srl = abs($member_srl);
 		$mode_arr = array('add', 'minus', 'update');
@@ -149,45 +149,48 @@ class experienceController extends experience
 		}
 		else
 		{
-			$todayMon = date('Ym');
-			$monThExperienceData = $oExperienceModel->getMonthExperience($member_srl, $todayMon);
+			if($updateMonth)
+			{
+				$todayMon = date('Ym');
+				$monThExperienceData = $oExperienceModel->getMonthExperience($member_srl, $todayMon);
 
-			$args = new stdClass();
-			$args->member_srl = $member_srl;
-			$args->regdate = $todayMon;
+				$args = new stdClass();
+				$args->member_srl = $member_srl;
+				$args->regdate = $todayMon;
 
-			$point = abs($experience - $current_experience);
-			
-			if ($mode == 'minus')
-			{
-				$point = $point * -1;
-			}
-			else if ($mode == 'update')
-			{
-				$point = $experience - $current_experience;
-			}
-			
-			if ($monThExperienceData)
-			{
-				if(is_array($monThExperienceData))
+				$point = abs($experience - $current_experience);
+
+				if ($mode == 'minus')
 				{
-					foreach ($monThExperienceData as $monThExperienceDatum)
+					$point = $point * -1;
+				}
+				else if ($mode == 'update')
+				{
+					$point = $experience - $current_experience;
+				}
+
+				if ($monThExperienceData)
+				{
+					if(is_array($monThExperienceData))
 					{
-						$expriencePoint = $monThExperienceDatum->experience;
-						break;
+						foreach ($monThExperienceData as $monThExperienceDatum)
+						{
+							$expriencePoint = $monThExperienceDatum->experience;
+							break;
+						}
 					}
+					else
+					{
+						$expriencePoint = $monThExperienceData->experience;
+					}
+					$args->experience = $expriencePoint + $point;
+					$output = executeQuery('experience.updateMonthExperience', $args);
 				}
 				else
 				{
-					$expriencePoint = $monThExperienceData->experience;
+					$args->experience = $point;
+					$output = executeQuery('experience.insertMonthExperience', $args);
 				}
-				$args->experience = $expriencePoint + $point;
-				$output = executeQuery('experience.updateMonthExperience', $args);
-			}
-			else
-			{
-				$args->experience = $point;
-				$output = executeQuery('experience.insertMonthExperience', $args);
 			}
 		}
 		

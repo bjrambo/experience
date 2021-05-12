@@ -115,7 +115,6 @@ class experienceAdminController extends experience
 
 		preg_match('/^(\+|-)?([1-9][0-9]*)$/', $experience, $m);
 
-		$action = '';
 		switch ($m[1])
 		{
 			case '+':
@@ -131,7 +130,8 @@ class experienceAdminController extends experience
 		$experience = $m[2];
 
 		$oExperienceController = getController('experience');
-		$output = $oExperienceController->setExperience($member_srl, (int)$experience, $action);
+		// Do not update Month data.
+		$output = $oExperienceController->setExperience($member_srl, intval($experience), $action, false);
 
 		$this->setError(-1);
 		$this->setMessage('success_updated', 'info');
