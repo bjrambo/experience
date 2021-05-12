@@ -177,6 +177,11 @@ class experience extends ModuleObject
 		{
 			$config->sync_point = FALSE;
 		}
+		
+		if(!$config->experience_group)
+		{
+			$config->experience_group = [];
+		}
 
 		return $config;
 	}
