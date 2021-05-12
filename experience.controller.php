@@ -158,7 +158,6 @@ class experienceController extends experience
 
 			$point = abs($experience - $current_experience);
 			
-			
 			if ($mode == 'minus')
 			{
 				$point = $point * -1;
@@ -170,7 +169,6 @@ class experienceController extends experience
 			
 			if ($monThExperienceData)
 			{
-				// for snsdStagram..
 				if(is_array($monThExperienceData))
 				{
 					foreach ($monThExperienceData as $monThExperienceDatum)
