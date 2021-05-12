@@ -41,8 +41,6 @@ class experienceController extends experience
 			'procSocialxeCallback'
 		);
 
-		/** @var experienceModel $oExperienceModel */
-		$oExperienceModel = getModel('experience');
 		$config = $this->getConfig();
 		$_experience_act = str_replace("\r", "", $config->experience_act);
 		$_experience_act = explode("\n", $_experience_act);
@@ -73,45 +71,6 @@ class experienceController extends experience
 		else
 		{
 			$output = $this->setExperience($obj->member_srl, $point, 'add');
-		}
-		if ($output->toBool())
-		{
-			$todayMon = date('Ym');
-			$monThExperienceData = $oExperienceModel->getMonthExperience($obj->member_srl, $todayMon);
-
-			$args = new stdClass();
-			$args->member_srl = $obj->member_srl;
-			$args->regdate = $todayMon;
-
-			if (in_array($act, $_minus_point_act))
-			{
-				$point = $point * -1;
-			}
-
-			if ($monThExperienceData)
-			{
-				// for snsdStagram..
-				if(is_array($monThExperienceData))
-				{
-					foreach ($monThExperienceData as $monThExperienceDatum)
-					{
-						$expriencePoint = $monThExperienceDatum->experience;
-						break;
-					}
-				}
-				else
-				{
-					$expriencePoint = $monThExperienceData->experience;
-				}
-				$args->experience = $expriencePoint + $point;
-				$output = executeQuery('experience.updateMonthExperience', $args);
-			}
-			else
-			{
-				$args->experience = $point;
-				$output = executeQuery('experience.insertMonthExperience', $args);
-			}
-
 		}
 
 		return new BaseObject();
@@ -182,7 +141,58 @@ class experienceController extends experience
 		{
 			$output = executeQuery("experience.insertExperience", $args);
 		}
+		
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+		else
+		{
+			$todayMon = date('Ym');
+			$monThExperienceData = $oExperienceModel->getMonthExperience($member_srl, $todayMon);
 
+			$args = new stdClass();
+			$args->member_srl = $member_srl;
+			$args->regdate = $todayMon;
+
+			$point = abs($experience - $current_experience);
+			
+			
+			if ($mode == 'minus')
+			{
+				$point = $point * -1;
+			}
+			else if ($mode == 'update')
+			{
+				$point = $experience - $current_experience;
+			}
+			
+			if ($monThExperienceData)
+			{
+				// for snsdStagram..
+				if(is_array($monThExperienceData))
+				{
+					foreach ($monThExperienceData as $monThExperienceDatum)
+					{
+						$expriencePoint = $monThExperienceDatum->experience;
+						break;
+					}
+				}
+				else
+				{
+					$expriencePoint = $monThExperienceData->experience;
+				}
+				$args->experience = $expriencePoint + $point;
+				$output = executeQuery('experience.updateMonthExperience', $args);
+			}
+			else
+			{
+				$args->experience = $point;
+				$output = executeQuery('experience.insertMonthExperience', $args);
+			}
+		}
+		
 		//레벨변화 적용
 		$level = $oExperienceModel->getLevel($experience, $config->level_step);
 		if ($level != $current_level)
