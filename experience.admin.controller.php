@@ -96,8 +96,7 @@ class experienceAdminController extends experience
 		}
 		$config->expression = $args->expression;
 
-		$oModuleController = getController('module');
-		$oModuleController->insertModuleConfig('experience', $config);
+		moduleController::getInstance()->insertModuleConfig('experience', $config);
 
 		$this->setMessage('success_updated');
 
@@ -129,9 +128,8 @@ class experienceAdminController extends experience
 		}
 		$experience = $m[2];
 
-		$oExperienceController = getController('experience');
 		// Do not update Month data.
-		$output = $oExperienceController->setExperience($member_srl, intval($experience), $action, false);
+		$output = experienceController::getInstance()->setExperience($member_srl, intval($experience), $action, false);
 
 		$this->setError(-1);
 		$this->setMessage('success_updated', 'info');
@@ -161,17 +159,15 @@ class experienceAdminController extends experience
 
 		if ($output->data)
 		{
-			$oExperienceController = getController('experience');
 			foreach ($output->data as $key => $val)
 			{
-				$oExperienceController->setExperience($val->member_srl, $val->point);
+				experienceController::getInstance()->setExperience($val->member_srl, $val->point);
 			}
 		}
 
 		$config->sync_point = true;
 
-		$oModuleController = getController('module');
-		$oModuleController->insertModuleConfig('experience', $config);
+		modulejController::getInstance()->insertModuleConfig('experience', $config);
 
 		$this->setMessage('success_updated');
 	}
@@ -188,7 +184,7 @@ class experienceAdminController extends experience
 		$prevMonth = date('Ym', $prev_month);
 
 		/** @var experienceModel $oExperienceModel */
-		$oExperienceModel = getModel('experience');
+		$oExperienceModel = experienceModel::getInstance();
 
 		$args = new stdClass();
 		$args->regdate = $prevMonth;
@@ -243,7 +239,7 @@ class experienceAdminController extends experience
 			//메달 흭득 알림(알림센터)
 			if (is_dir('./modules/ncenterlite'))
 			{
-				$oNcenterliteController = getController('ncenterlite');
+				$oNcenterliteController = ncenterliteController::getInstance();
 
 				$body = new stdClass;
 				$body->medal = $medalString;

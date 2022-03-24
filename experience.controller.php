@@ -89,7 +89,7 @@ class experienceController extends experience
 		}
 
 		/** @var experienceModel $oExperienceModel */
-		$oExperienceModel = getModel('experience');
+		$oExperienceModel = experienceModel::getInstance();
 		$config = $this->getConfig();
 
 		$current_experience = $oExperienceModel->getExperience($member_srl, true);
@@ -203,7 +203,7 @@ class experienceController extends experience
 			//레벨업 알림(알림센터)
 			if (is_dir('./modules/ncenterlite') && $level > $current_level && $config->ncenter_levelup == 'Y')
 			{
-				$oNcenterliteController = getController('ncenterlite');
+				$oNcenterliteController = ncenterliteController::getInstance();
 
 				$body = new stdClass;
 				$body->level = $level;
@@ -257,11 +257,10 @@ class experienceController extends experience
 			return;
 		}
 
-		$oMemberModel = getModel('member');
+		$oMemberModel = memberModel::getInstance();
 		$group_list = $oMemberModel->getMemberGroups($member_srl);
 
-		$oExperienceModel = getModel('experience');
-		$level = $oExperienceModel->getLevel($experience, $config->level_step);
+		$level = experienceModel::getInstance()->getLevel($experience, $config->level_step);
 
 		$del_group_list = array();
 		$new_group_list = array();
@@ -390,7 +389,7 @@ class experienceController extends experience
 		$args = new stdClass;
 		$args->member_srl = $member_srl;
 
-		$oMemberController = getController('member');
+		$oMemberController = memberController::getInstance();
 
 		// 그룹제거
 		if ($del_group_list[0])
@@ -407,7 +406,7 @@ class experienceController extends experience
 					$_gdel_list[] = $group_srl;
 				}
 			}
-			$oMemberController->_clearMemberCache($member_srl);
+			$oMemberController->clearMemberCache($member_srl);
 		}
 
 		// 그룹추가
@@ -431,7 +430,7 @@ class experienceController extends experience
 		//변경된 그룹반영을 위해 회원캐시삭제
 		if ($_gnew_list[0] || $_gdel_list[0])
 		{
-			$oMemberController->_clearMemberCache($member_srl);
+			$oMemberController->clearMemberCache($member_srl);
 		}
 
 		$GLOBALS['__new_group_list__'] = $_gnew_list;
@@ -468,7 +467,7 @@ class experienceController extends experience
 		}
 		
 		/** @var experienceModel $oExperienceModel */
-		$oExperienceModel = getModel('experience');
+		$oExperienceModel = experienceModel::getInstance();
 
 		$args = new stdClass();
 		$args->regdate = $prevMonth;
@@ -523,7 +522,7 @@ class experienceController extends experience
 			//메달 흭득 알림 (알림센터)
 			if (is_dir('./modules/ncenterlite'))
 			{
-				$oNcenterliteController = getController('ncenterlite');
+				$oNcenterliteController = ncenterliteController::getInstance();
 
 				$body = new stdClass;
 				$body->medal = $medalString;

@@ -15,7 +15,6 @@ class experienceAdminView extends experience
 		$config = $this->getConfig();
 		Context::set('config', $config);
 
-
 		$this->setTemplatePath($this->module_path . 'tpl');
 	}
 
@@ -38,8 +37,7 @@ class experienceAdminView extends experience
 		Context::set('group_list', $group_list);
 
 		//포인트 기능 활성화여부
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('point');
+		$config = moduleModel::getInstance()::getModuleConfig('point');
 		if ($config->able_module == 'N')
 		{
 			Context::set('no_point_module', true);
@@ -60,7 +58,6 @@ class experienceAdminView extends experience
 		$this->group_list = $oMemberModel->getGroups();
 		Context::set('group_list', $this->group_list);
 
-		$oExperienceModel = getModel('experience');
 		$columnList = array(
 			'member.member_srl',
 			'member.user_id',
@@ -72,7 +69,7 @@ class experienceAdminView extends experience
 		$args = new stdClass;
 		$args->list_count = 20;
 		$args->page = Context::get('page');
-		$output = $oExperienceModel->getMemberList($args, $columnList);
+		$output = experienceModel::getInstance()->getMemberList($args, $columnList);
 
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);

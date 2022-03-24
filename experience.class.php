@@ -7,9 +7,13 @@
  **/
 class experience extends ModuleObject
 {
-	protected $triggers = array(
+	private $triggers = array(
 		array('point.setPoint', 'experience', 'controller', 'triggerSetPoint', 'after'),
 		array('moduleHandler.init', 'experience', 'controller', 'triggerModuleHandlerInitAfter', 'after'),
+	);
+	
+	private $deleteTriggers = array(
+		
 	);
 
 	private $oCacheHandler = NULL;

@@ -215,8 +215,7 @@ class experienceModel extends experience
 		$output = executeQuery($query_id, $args, $columnList);
 		if ($output->total_count)
 		{
-			$oModuleModel = getModel('module');
-			$config = $oModuleModel->getModuleConfig('experience');
+			$config = moduleModel::getInstance()->getModuleConfig('experience');
 
 			foreach ($output->data as $key => $val)
 			{
