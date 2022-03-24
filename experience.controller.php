@@ -212,6 +212,7 @@ class experienceController extends experience
 				$args->member_srl = $member_srl;
 				$args->srl = 1;
 				$args->target_srl = 1;
+				$args->target_p_srl = 1;
 				$args->type = 'U';
 				$args->target_type = 'U';
 				$args->notify_type = $config->levelup_ntype;
@@ -219,7 +220,7 @@ class experienceController extends experience
 				$args->target_url = getUrl('');
 				$args->regdate = date('YmdHis');
 				$args->notify = $oNcenterliteController->_getNotifyId($args);
-				$output = $oNcenterliteController->_insertNotify($args);
+				$notifyOutput = $oNcenterliteController->_insertNotify($args);
 			}
 		}
 
