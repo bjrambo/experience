@@ -167,7 +167,7 @@ class experienceAdminController extends experience
 
 		$config->sync_point = true;
 
-		modulejController::getInstance()->insertModuleConfig('experience', $config);
+		moduleController::getInstance()->insertModuleConfig('experience', $config);
 
 		$this->setMessage('success_updated');
 	}
