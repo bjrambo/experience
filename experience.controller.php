@@ -545,4 +545,8 @@ class experienceController extends experience
 		}
 		return true;
 	}
+	
+	function triggerModuleHandlerInitAfter()
+	{
+	}
 }
