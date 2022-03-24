@@ -67,7 +67,7 @@ class experience extends ModuleObject
 		$config = $oModuleModel->getModuleConfig('experience');
 		if (is_dir('./modules/ncenterlite'))
 		{
-			$oNcenterliteModel = getModel('ncenterlite');
+			$oNcenterliteModel = ncenterliteModel::getInstance();
 			if (!$config->levelup_ntype || !$oNcenterliteModel->isNotifyTypeExistsbySrl($config->levelup_ntype))
 			{
 				return true;
