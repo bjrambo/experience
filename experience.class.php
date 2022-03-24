@@ -47,6 +47,13 @@ class experience extends ModuleObject
 		//트리커 설치
 		foreach ($this->triggers as $trigger)
 		{
+			if(version_compare(RX_VERSION, '2.0.20', '<'))
+			{
+				if($this->triggers[0] == 'moduleHandler.init')
+				{
+					continue;
+				}
+			}
 			if (!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
 			{
 				return true;
@@ -84,6 +91,13 @@ class experience extends ModuleObject
 		//트리커 설치
 		foreach ($this->triggers as $trigger)
 		{
+			if(version_compare(RX_VERSION, '2.0.20', '<'))
+			{
+				if($this->triggers[0] == 'moduleHandler.init')
+				{
+					continue;
+				}
+			}
 			if (!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
 			{
 				$oModuleController->insertTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
