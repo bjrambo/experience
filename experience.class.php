@@ -45,7 +45,7 @@ class experience extends ModuleObject
 	 */
 	function checkUpdate()
 	{
-		$oModuleModel = getModel('module');
+		$oModuleModel = moduleModel::getInstance();
 
 		//트리커 설치
 		foreach ($this->triggers as $trigger)
@@ -87,8 +87,8 @@ class experience extends ModuleObject
 	 */
 	function moduleUpdate()
 	{
-		$oModuleModel = getModel('module');
-		$oModuleController = getController('module');
+		$oModuleModel = moduleModel::getInstance();
+		$oModuleController = moduleController::getInstance();
 
 		//트리커 설치
 		foreach ($this->triggers as $trigger)
@@ -111,7 +111,7 @@ class experience extends ModuleObject
 		if (is_dir('./modules/ncenterlite'))
 		{
 			/** @var ncenterliteModel $oNcenterliteModel */
-			$oNcenterliteModel = getModel('ncenterlite');
+			$oNcenterliteModel = ncenterliteModel::getInstance();
 			if (!$config->levelup_ntype || !$oNcenterliteModel->isNotifyTypeExistsbySrl($config->levelup_ntype))
 			{
 				$args = new stdClass;
@@ -166,8 +166,7 @@ class experience extends ModuleObject
 
 	function getConfig()
 	{
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('experience');
+		$config = moduleModel::getInstance()->getModuleConfig('experience');
 
 		if (!$config->max_level)
 		{
