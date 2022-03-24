@@ -41,7 +41,6 @@ class experience extends ModuleObject
 	 */
 	function checkUpdate()
 	{
-		$oDB = DB::getInstance();
 		$oModuleModel = getModel('module');
 
 		//트리커 설치
@@ -84,7 +83,6 @@ class experience extends ModuleObject
 	 */
 	function moduleUpdate()
 	{
-		$oDB = DB::getInstance();
 		$oModuleModel = getModel('module');
 		$oModuleController = getController('module');
 
