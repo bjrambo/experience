@@ -35,10 +35,17 @@ class experienceController extends experience
 			'procBoardInsertComment',
 			'procBoardDeleteComment',
 			'procDocumentVoteUp',
+			'procDocumentVoteUpCancel',
+			'procDocumentVoteDown',
+			'procDocumentVoteDownCancel',
+			'procCommentVoteUp',
+			'procCommentVoteUpCancel',
+			'procCommentVoteDown',
+			'procCommentVoteDownCancel',
 			'procDocumentManageCheckedDocument',
 			'procSocialxeConfirmMail',
 			'procSocialxeInputAddInfo',
-			'procSocialxeCallback'
+			'procSocialxeCallback',
 		);
 
 		$config = $this->getConfig();
@@ -54,7 +61,11 @@ class experienceController extends experience
 		$_minus_point_act = array(
 			'procBoardDeleteDocument',
 			'procBoardDeleteComment',
-			'procDocumentManageCheckedDocument'
+			'procDocumentManageCheckedDocument',
+			'procDocumentVoteUpCancel',
+			'procDocumentVoteDownCancel',
+			'procCommentVoteUpCancel',
+			'procCommentVoteDownCancel',
 		);
 
 		//지정한 act 빼고, 오로지 포인트 적립만 경험치 지급
